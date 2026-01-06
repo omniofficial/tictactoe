@@ -17,6 +17,39 @@ const GameBoard = (function () {
         board = ["", "", "", "", "", "", "", "", ""];
     };
 
+    function checkWinner() {
+        // Get current board
+        const currentBoard = GameBoard.getBoard();
+
+        // Store winningCombos
+        const winningCombos = [
+            [0, 1, 2], // top row
+            [3, 4, 5], // middle row
+            [6, 7, 8], // bottom row
+            [0, 3, 6], // left column
+            [1, 4, 7], // middle column
+            [2, 5, 8], // right column
+            [0, 4, 8], // diagonal
+            [2, 4, 6], // other diagonal
+        ];
+
+        // Check if we have a winning combo anywhere in our currentBoard
+        for (let i = 0; i < winningCombos.length; i++) {
+            let combo = winningCombos[i];
+            let a = combo[0];
+            let b = combo[1];
+            let c = combo[2];
+
+            if (
+                currentBoard[a] !== "" &&
+                currentBoard[a] === currentBoard[b] &&
+                currentBoard[a] === currentBoard[c]
+            ) {
+                return currentBoard[a]; // winner
+            }
+        }
+    }
+
     return {
         getBoard,
         placeMark,
@@ -49,6 +82,12 @@ const GameController = (function () {
         // Since it is a success, switch players.
         if (success) {
             currentPlayerIndex = 1 - currentPlayerIndex;
+        }
+
+        // Check winner after turn
+        const winner = GameBoard.checkWinner();
+        if (winner) {
+            console.log("Winner is:", winner);
         }
     }
 })();
