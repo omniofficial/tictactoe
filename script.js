@@ -19,7 +19,7 @@ const GameBoard = (function () {
 
     function checkWinner() {
         // Get current board
-        const currentBoard = GameBoard.getBoard();
+        const currentBoard = getBoard();
 
         // Store winningCombos
         const winningCombos = [
@@ -54,6 +54,7 @@ const GameBoard = (function () {
         getBoard,
         placeMark,
         reset,
+        checkWinner,
     };
 })();
 
@@ -90,4 +91,16 @@ const GameController = (function () {
             console.log("Winner is:", winner);
         }
     }
+    return { playRound };
 })();
+
+// Overall playGame logic.
+function playGame() {
+    let winner;
+    while (!winner) {
+        const index = Number(prompt("Enter square (0-8):"));
+        GameController.playRound(index);
+        winner = GameBoard.checkWinner();
+    }
+    console.log("Game over! Winner:", winner);
+}
