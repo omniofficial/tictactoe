@@ -76,9 +76,16 @@ const GameController = (function () {
     function playRound(index) {
         // Get the current player.
         const currentPlayer = players[currentPlayerIndex];
+        console.log("Current Player:", currentPlayer);
 
         // Can this player place a mark?
         const success = GameBoard.placeMark(index, currentPlayer.mark);
+        console.log(
+            "Mark was placed:",
+            success,
+            "Board state:",
+            GameBoard.getBoard()
+        );
 
         // Since it is a success, switch players.
         if (success) {
@@ -93,6 +100,11 @@ const GameController = (function () {
     }
     return { playRound };
 })();
+
+
+
+
+
 
 // Overall playGame logic.
 function playGame() {
