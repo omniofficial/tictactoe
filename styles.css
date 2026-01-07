@@ -1,0 +1,14 @@
+#board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px); /* 3 columns, each 100px wide */
+    grid-template-rows: repeat(3, 100px); /* 3 rows, each 100px tall */
+    gap: 5px;
+}
+
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #333;
+    font-size: 2rem; /* size of X or O */
+}
