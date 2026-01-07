@@ -1,3 +1,4 @@
+// ------------------- GAMEBOARD STATE ------------------- //
 const GameBoard = (function () {
     // private board state
     let board = ["", "", "", "", "", "", "", "", ""];
@@ -58,6 +59,7 @@ const GameBoard = (function () {
     };
 })();
 
+// ------------------- GAME CONTROLLER / FLOW ------------------- //
 const GameController = (function () {
     // Needs to remember who the players are, whose turn it is, and whether the game is over.
     // Create two players
@@ -92,6 +94,9 @@ const GameController = (function () {
             currentPlayerIndex = 1 - currentPlayerIndex;
         }
 
+        // Render results in GUI
+        Render.renderBoard();
+
         // Check winner after turn
         const winner = GameBoard.checkWinner();
         if (winner) {
@@ -101,12 +106,36 @@ const GameController = (function () {
     return { playRound };
 })();
 
+// ------------------- GUI RENDERER ------------------- //
+const Render = (function () {
+    function renderBoard() {
+        console.log("Renderer called");
+        const container = document.getElementById("board");
 
+        container.innerHTML = "";
+        // Get current board state.
+        currentState = GameBoard.getBoard();
+        for (let i = 0; i < currentState.length; i++) {
+            // Create nine cell divs within the board container.
+            const div = document.createElement("div");
+            div.classList.add("cell");
 
+            // Assign value of the currentState[i] to that div.
+            const symbol = document.createElement("p");
+            symbolValue = currentState[i];
+            symbol.textContent = symbolValue;
 
+            // Append symbol to div
+            div.appendChild(symbol);
 
+            // Append div to container
+            container.appendChild(div);
+        }
+    }
+    return { renderBoard };
+})();
 
-// Overall playGame logic.
+// ------------------- PLAYGAME LOGIC ------------------- //
 function playGame() {
     let winner;
     while (!winner) {
