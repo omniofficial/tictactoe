@@ -113,22 +113,24 @@ const Render = (function () {
         const container = document.getElementById("board");
 
         container.innerHTML = "";
+
         // Get current board state.
         currentState = GameBoard.getBoard();
         for (let i = 0; i < currentState.length; i++) {
-            // Create nine cell divs within the board container.
             const div = document.createElement("div");
             div.classList.add("cell");
+            div.dataset.index = i;
 
-            // Assign value of the currentState[i] to that div.
             const symbol = document.createElement("p");
-            symbolValue = currentState[i];
-            symbol.textContent = symbolValue;
-
-            // Append symbol to div
+            symbol.textContent = currentState[i];
             div.appendChild(symbol);
 
-            // Append div to container
+            // Click listener for this cell. On every click, get index and call the playRound.
+            div.addEventListener("click", (e) => {
+                const index = Number(e.currentTarget.dataset.index);
+                GameController.playRound(index); // call game logic
+            });
+
             container.appendChild(div);
         }
     }
@@ -137,11 +139,5 @@ const Render = (function () {
 
 // ------------------- PLAYGAME LOGIC ------------------- //
 function playGame() {
-    let winner;
-    while (!winner) {
-        const index = Number(prompt("Enter square (0-8):"));
-        GameController.playRound(index);
-        winner = GameBoard.checkWinner();
-    }
-    console.log("Game over! Winner:", winner);
+    Render.renderBoard();
 }
